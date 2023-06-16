@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "lib": ["es2017"],
+    "allowJs": true,
+    "outDir": "./dist",
+    "noEmit": true,
+    "isolatedModules": false,
+    "strict": true,
+    "moduleResolution": "node16",
+    "baseUrl": "./",
+    "paths": {
+      "@*": ["src/*/index", "src/*"],
+      "@routes": ["src/routes"],
+      "@model": ["src/model"],
+      "@utils": ["src/utils"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+
+  "ts-node": {
+    "esm": true
+  },
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["index.js", "node_modules"]
+}
