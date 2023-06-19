@@ -64,8 +64,8 @@ Router.post("/crawl-test", async (req, res) => {
 
 Router.get("/", async (req, res) => {
   try {
-    const pageIndex = parseInt(req.body.pageIndex as string) ?? 1;
-    const pageSize = parseInt(req.query.pageSize as string) ?? 100;
+    const pageIndex = parseInt(req.query?.pageIndex as string) ?? 1;
+    const pageSize = parseInt(req.query?.pageSize as string) ?? 100;
     const date_sort = req.query.date_sort || -1;
 
     const list = await FifaAddictPlayerSchema.find()
@@ -79,6 +79,8 @@ Router.get("/", async (req, res) => {
       total: await FifaAddictPlayerSchema.countDocuments(),
     });
   } catch (error) {
+    console.log("error", error);
+
     res.status(500);
     res.send({ message: "Error" });
   }
@@ -86,7 +88,7 @@ Router.get("/", async (req, res) => {
 
 Router.get("/ids", async (req, res) => {
   try {
-    const pageIndex = parseInt(req.body.pageIndex as string) ?? 1;
+    const pageIndex = parseInt(req.query.pageIndex as string) ?? 1;
     const pageSize = parseInt(req.query.pageSize as string) ?? 100;
     const date_sort = req.query.date_sort || -1;
 
@@ -101,6 +103,20 @@ Router.get("/ids", async (req, res) => {
       total: await FifaAddictIDsSchema.countDocuments(),
     });
   } catch (error) {
+    console.log("error", error);
+    res.status(500);
+    res.send({ message: "Error" });
+  }
+});
+
+Router.delete("/ids", async (req, res) => {
+  try {
+    const list = await FifaAddictIDsSchema.deleteMany();
+
+    res.status(200);
+    res.send({ message: "Success" });
+  } catch (error) {
+    console.log("error", error);
     res.status(500);
     res.send({ message: "Error" });
   }
@@ -148,7 +164,7 @@ Router.post("/detail", async (req, res) => {
 
 Router.get("/detail", async (req, res) => {
   try {
-    const pageIndex = parseInt(req.body.pageIndex as string) ?? 1;
+    const pageIndex = parseInt(req.query.pageIndex as string) ?? 1;
     const pageSize = parseInt(req.query.pageSize as string) ?? 100;
     const date_sort = req.query.date_sort || -1;
 
@@ -162,6 +178,20 @@ Router.get("/detail", async (req, res) => {
       data: list,
       total: await FifaAddictDetailSchema.countDocuments(),
     });
+  } catch (error) {
+    console.log("error", error);
+
+    res.status(500);
+    res.send({ message: "Error" });
+  }
+});
+
+Router.delete("/detail", async (req, res) => {
+  try {
+    const list = await FifaAddictDetailSchema.deleteMany();
+
+    res.status(200);
+    res.send({ message: "Success" });
   } catch (error) {
     console.log("error", error);
 

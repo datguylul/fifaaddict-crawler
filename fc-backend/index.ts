@@ -2,9 +2,8 @@ require("module-alias/register");
 require("dotenv").config();
 import express from "express";
 const app = express();
-import body_parser from "body-parser";
 import cors from "cors";
-
+import body_parser from "body-parser";
 import { api } from "@routes";
 import { mongooseConnect } from "@mongoose";
 
