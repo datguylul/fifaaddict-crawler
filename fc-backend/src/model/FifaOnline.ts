@@ -70,30 +70,142 @@ export interface FORequest {
 
 export interface FFAddictPlayer {
   uid?: string;
-  pos1?: string;
-  pos1val?: number;
-  team_id?: string;
-  team_name?: string;
-  nation_squad_id?: string;
-  nation_squad_name?: string;
-  liveperfamount?: string;
-  update_statchange?: string;
-  all_statchange?: string;
+  year?: number;
   name?: string;
-  pos?: string;
-  year?: string;
-  skill_level?: string;
+  name_short?: string;
+  height?: number;
+  weight?: number;
+  birthdate?: string;
+  age?: number;
+  number?: number;
+  league_id?: number;
+  league_name?: string;
+  team_id?: number;
+  team_name?: string;
+  nation_squad_id?: number;
+  nation_squad_name?: string;
+  nation_id?: number;
+  pos1?: string;
+  pos2?: string;
+  pos1val?: number;
+  pos2val?: number;
+  foot_pref?: string;
+  foot_weak?: string;
+  salary?: number;
+  salary_kr?: string;
+  allstat?: number;
+  workrate_def?: string;
+  workrate_att?: string;
+  skill_level?: number;
+  liveperf?: number;
+  liveperfamount?: number;
+  lp?: number;
   pricekr?: number;
-  attrA?: number;
-  attrB?: number;
-  attrC?: number;
-  year_short?: string;
+  update_statchange?: number;
+  all_statchange?: number;
+  team_slug?: string;
+  league_slug?: string;
+  nation_name?: string;
+  bodytype_name?: string;
+  attrgroup?: {
+    labels?: string[];
+    data?: number[];
+  };
+  season_full?: string;
+  season_name?: string;
+  postlist?: Record<
+    string,
+    {
+      name?: string;
+      text?: string;
+      value?: number;
+      rec_direction?: string;
+    }
+  >;
+  post_current?: string;
+  reputation?: string;
+  clubcarrer?:
+    | Record<
+        string,
+        {
+          year?: string;
+          loan?: boolean;
+          teamname?: string;
+          teamlink?: string;
+          teamcolor?: boolean;
+        }
+      >
+    | boolean;
 }
 
-export interface FFAddictResponse {
+export interface FFAddictID {
+  uid?: string;
+  name?: string;
+}
+
+export interface FFAddictIdsResponse {
   db?: FFAddictPlayer[];
   meta?: {
     title?: string;
     desc?: string;
   };
+}
+
+export interface FFAddictPlayerAttributeItem {
+  name?: string;
+  value?: number;
+}
+
+export interface FFAddictPlayerAttribute {
+  sprintspeed: FFAddictPlayerAttributeItem;
+  acceleration: FFAddictPlayerAttributeItem;
+  finishing: FFAddictPlayerAttributeItem;
+  shotpower: FFAddictPlayerAttributeItem;
+  longshots: FFAddictPlayerAttributeItem;
+  positioning: FFAddictPlayerAttributeItem;
+  volleys: FFAddictPlayerAttributeItem;
+  penalties: FFAddictPlayerAttributeItem;
+  shortpassing: FFAddictPlayerAttributeItem;
+  vision: FFAddictPlayerAttributeItem;
+  crossing: FFAddictPlayerAttributeItem;
+  longpassing: FFAddictPlayerAttributeItem;
+  freekickaccuracy: FFAddictPlayerAttributeItem;
+  curve: FFAddictPlayerAttributeItem;
+  dribbling: FFAddictPlayerAttributeItem;
+  ballcontrol: FFAddictPlayerAttributeItem;
+  agility: FFAddictPlayerAttributeItem;
+  balance: FFAddictPlayerAttributeItem;
+  reactions: FFAddictPlayerAttributeItem;
+  marking: FFAddictPlayerAttributeItem;
+  standingtackle: FFAddictPlayerAttributeItem;
+  interceptions: FFAddictPlayerAttributeItem;
+  headingaccuracy: FFAddictPlayerAttributeItem;
+  slidingtackle: FFAddictPlayerAttributeItem;
+  strength: FFAddictPlayerAttributeItem;
+  stamina: FFAddictPlayerAttributeItem;
+  aggression: FFAddictPlayerAttributeItem;
+  jumping: FFAddictPlayerAttributeItem;
+  composure: FFAddictPlayerAttributeItem;
+  gkdiving: FFAddictPlayerAttributeItem;
+  gkhandling: FFAddictPlayerAttributeItem;
+  gkkicking: FFAddictPlayerAttributeItem;
+  gkreflexes: FFAddictPlayerAttributeItem;
+  gkpositioning: FFAddictPlayerAttributeItem;
+}
+export interface FFAddictPlayerDetail {
+  dbrelate?: FFAddictPlayer[];
+  attr?: FFAddictPlayerAttribute;
+  traits?: Record<string, { id?: string; name?: string; desc?: string }>;
+  db?: FFAddictPlayer;
+  pre?: FFAddictPlayer;
+  meta?: {
+    title?: string;
+    desc?: string;
+  };
+}
+
+export interface FFAddictDetailDB {
+  uid?: string;
+  detail?: string;
+  created_date?: Date;
 }

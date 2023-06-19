@@ -1,6 +1,7 @@
 import { ffFetchConfig, fo4sConfig } from "@config";
 import {
-  FFAddictResponse,
+  FFAddictIdsResponse,
+  FFAddictPlayerDetail,
   FFResponse,
   FifaOnlinePlayer,
   FOResponse,
@@ -16,6 +17,15 @@ export const crawlFO4Data = (
 
 export const crawlFFData = (
   url: string
-): Promise<FFResponse<FFAddictResponse>> => {
+): Promise<FFResponse<FFAddictIdsResponse>> => {
   return axios.request({ url: url, ...ffFetchConfig });
+};
+
+export const crawlFFDetail = (
+  id: string
+): Promise<FFResponse<FFAddictPlayerDetail>> => {
+  return axios.request({
+    url: `https://en.fifaaddict.com/api2?fo4pid=pid${id}&locale=en`,
+    ...ffFetchConfig,
+  });
 };

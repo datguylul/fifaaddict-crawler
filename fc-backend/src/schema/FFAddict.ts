@@ -1,4 +1,4 @@
-import { FFAddictPlayer } from "@model";
+import { FFAddictDetailDB, FFAddictID, FFAddictPlayer } from "@model";
 import mongoose from "mongoose";
 
 const FifaAddictPlayerSchema = mongoose.model<FFAddictPlayer>(
@@ -87,4 +87,40 @@ const FifaAddictPlayerSchema = mongoose.model<FFAddictPlayer>(
   })
 );
 
-export { FifaAddictPlayerSchema };
+const FifaAddictIDsSchema = mongoose.model<FFAddictID>(
+  "ff-addict_ids",
+  new mongoose.Schema({
+    uid: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      default: 0,
+    },
+    created_date: {
+      type: Date,
+      default: Date.now,
+    },
+  })
+);
+
+const FifaAddictDetailSchema = mongoose.model<FFAddictDetailDB>(
+  "ff-addict_detail",
+  new mongoose.Schema({
+    uid: {
+      type: String,
+      required: true,
+    },
+    detail: {
+      type: String,
+      default: 0,
+    },
+    created_date: {
+      type: Date,
+      default: Date.now,
+    },
+  })
+);
+
+export { FifaAddictPlayerSchema, FifaAddictIDsSchema, FifaAddictDetailSchema };
