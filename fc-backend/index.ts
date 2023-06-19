@@ -6,8 +6,7 @@ import body_parser from "body-parser";
 import cors from "cors";
 
 import { api } from "@routes";
-// import { mongooseConnect } from "@mongoose";
-// import { notFound, swaggerDocs } from "@utils";
+import { mongooseConnect } from "@mongoose";
 
 app.use(cors());
 app.use(body_parser.json());
@@ -18,7 +17,7 @@ app.use("/api", api);
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  // mongooseConnect();
+  mongooseConnect();
 
   console.log(`running at: ${port}`);
 });

@@ -1,5 +1,11 @@
-import { crawlData, getQueryParams } from "@utils";
+import { ffFetchConfig } from "@config";
+import { FFAddictPlayer } from "@model";
+import { crawlFFData } from "@network";
+import { FifaAddictPlayerSchema } from "@schema/FFAddict";
+import { getFFApiString, getQueryParams } from "@utils";
+import axios from "axios";
 import express from "express";
+import { Model } from "mongoose";
 
 const Router = express.Router();
 
@@ -8,41 +14,62 @@ Router.get("/test", async (req, res) => {
   res.send({ tag: "tag test ok" });
 });
 
-const url = `https://fo4s.com/ajax?action=search_player&input={"pos":[],"class":[],"league":"","club":"","nation":"","team":"","trait":["","",""],"ig_trait":[],"attr":["","",""],"attr_value":[{},{},{}],"lfoot":"","rfoot":"","month":"","day":"","build":[],"skill":"","fame":"","sort":"ovr-desc","col1":"sprintspeed","col2":"stamina","col3":"strength","q":"h"}`;
-
 Router.post("/crawl", async (req, res) => {
   try {
-    const bodyUrl = decodeURIComponent(req.body.url);
+    const { hostname, paramsEntries } = getQueryParams(req.body.url);
+    const apiString = getFFApiString(hostname, paramsEntries);
+    const response = await crawlFFData(apiString);
+    const data = response.data?.db;
 
-    const url = new URL(bodyUrl);
-    const urlParams = new URLSearchParams(url.search);
+    response.data?.db?.forEach(async (element) => {
+      await new FifaAddictPlayerSchema(element).save();
+    });
 
-    // let params: Record<string, string> = {};
-    // for (const entry of urlParams.entries()) {
-    //   params[entry[0]] = entry[1];
-    //   // params += `${entry[0]}=${entry[1]}&`;
-    // }
-
-    var search = url.search.substring(1);
-    const params = JSON.parse(
-      '{"' +
-        decodeURI(search)
-          .replace(/"/g, '\\"')
-          .replace(/&/g, '","')
-          .replace(/=/g, '":"') +
-        '"}'
-    );
+    console.log("resultList", data?.length);
 
     res.status(200);
-    res.send({ url: bodyUrl, hostname: url.hostname, params: params });
-
-    // const response = await crawlData(url);
-
-    // res.status(200);
-    // res.send({ data: response.data?.data });
+    res.send({ data: data, length: data?.length });
   } catch (error) {
     console.log("error", error);
 
+    res.status(500);
+    res.send({ message: "Error" });
+  }
+});
+
+Router.post("/crawl-test", async (req, res) => {
+  try {
+    const { hostname, paramsEntries } = getQueryParams(req.body.url);
+    const apiString = getFFApiString(hostname, paramsEntries);
+    const response = await crawlFFData(apiString);
+    const data = response.data?.db;
+    res.status(200);
+    res.send({ data: data, length: data?.length });
+  } catch (error) {
+    console.log("error", error);
+
+    res.status(500);
+    res.send({ message: "Error" });
+  }
+});
+
+Router.get("/", async (req, res) => {
+  try {
+    const pageIndex = parseInt(req.body.pageIndex as string) ?? 1;
+    const pageSize = parseInt(req.query.pageSize as string) ?? 100;
+    const date_sort = req.query.date_sort || -1;
+
+    const list = await FifaAddictPlayerSchema.find()
+      .sort({ created_date: date_sort })
+      .skip(pageIndex > 0 ? (pageIndex - 1) * pageSize : 0)
+      .limit(pageSize);
+
+    res.status(200);
+    res.send({
+      data: list,
+      total: await FifaAddictPlayerSchema.countDocuments(),
+    });
+  } catch (error) {
     res.status(500);
     res.send({ message: "Error" });
   }

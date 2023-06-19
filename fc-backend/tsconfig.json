@@ -14,7 +14,11 @@
       "@*": ["src/*/index", "src/*"],
       "@routes": ["src/routes"],
       "@model": ["src/model"],
-      "@utils": ["src/utils"]
+      "@utils": ["src/utils"],
+      "@config": ["src/config"],
+      "@network": ["src/network"],
+      "@schema": ["src/schema"],
+      "@mongoose": ["src/mongoose"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

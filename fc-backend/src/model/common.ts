@@ -1,8 +1,12 @@
-export interface Response<T> {
+export interface FOResponse<T> {
   data?: {
     data?: T;
     error?: ErrorResponse;
   };
+}
+
+export interface FFResponse<T> {
+  data?: T;
 }
 
 export interface ResponseData<T> {
