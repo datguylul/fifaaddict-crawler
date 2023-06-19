@@ -119,6 +119,12 @@ Router.post("/detail", async (req, res) => {
       return;
     }
 
+    const idCheck = await FifaAddictDetailSchema.findOne({ uid: req.body.id });
+    if (idCheck) {
+      res.status(400).send({ message: "Detail already exist" });
+      return;
+    }
+
     const params: FFAddictDetailDB = {
       uid: req.body.id,
       detail: JSON.stringify(data),
