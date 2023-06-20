@@ -25,11 +25,11 @@ Router.post("/crawl-ids", async (req, res) => {
 
     let resultList: FFAddictID[] = [];
     for (let i = 0; i < (data?.length ?? 0); i++) {
-      const idCheck = await FifaAddictIDsSchema.findOne({ uid: data?.[i].uid });
-      if (!idCheck) {
-        const result = await new FifaAddictIDsSchema(data?.[i]).save();
-        resultList = [...resultList, result];
-      }
+      // const idCheck = await FifaAddictIDsSchema.findOne({ uid: data?.[i].uid });
+      // if (!idCheck) {
+      // }
+      const result = await new FifaAddictIDsSchema(data?.[i]).save();
+      resultList = [...resultList, result];
     }
 
     res.status(200);

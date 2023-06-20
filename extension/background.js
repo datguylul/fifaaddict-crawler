@@ -1,12 +1,16 @@
 chrome.tabs.onUpdated.addListener((id, change, tab) => {
-  var url = tab.url;
+  const url = tab.url;
   if (url !== undefined && change.status == "complete") {
-    const hostName = new URL(tab.url).hostname;
+    const hostName = new URL(url).hostname;
     if (hostName !== "en.fifaaddict.com") {
       return;
     }
 
-    fetch("http://localhost:3000/api/v1/crawler/crawl", {
+    if (url?.includes("https://en.fifaaddict.com/fo4db/pid")) {
+      return;
+    }
+
+    fetch("http://localhost:3000/api/v1/crawler/crawl-ids", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +19,10 @@ chrome.tabs.onUpdated.addListener((id, change, tab) => {
         url: tab.url,
       }),
     })
-      .then((response) => response.text())
+      .then((response) => {
+        console.log("response", response);
+        return response.text();
+      })
       .then((result) => {
         const data = JSON.parse(result);
         console.log(data.length);

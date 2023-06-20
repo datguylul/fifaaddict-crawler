@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { MongoClient, ChangeStream } from "mongodb";
+import { mongooseInsertWatch } from "@network";
 const stream = require("stream");
 const mongooseConnect = () => {
   console.log("MongooseDB connecting...");
@@ -43,7 +44,9 @@ async function monitorListingsUsingEventEmitter(pipeline = []) {
     try {
       console.log("Change stream listening...");
       while (await changeStream.hasNext()) {
-        console.log(await changeStream.next());
+        const data = await changeStream.next();
+
+        void mongooseInsertWatch(data);
       }
     } catch (error) {
       if (changeStream.isClosed()) {
